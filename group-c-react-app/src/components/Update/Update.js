@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form } from "semantic-ui-react";
 import axios from "axios";
+import { useHistory } from "react-router";
 
 function Update() {
   const [prefix, setPrefix] = useState("");
@@ -14,6 +15,7 @@ function Update() {
   const [vehicleType, setVehicleType] = useState("");
   const [engineSize, setEngineSize] = useState("");
   const [id, setId] = useState(null);
+  let history = useHistory();
 
   useEffect(() => {
     setId(localStorage.getItem("id"));
@@ -49,7 +51,7 @@ function Update() {
       "https://6151d18b4a5f22001701d46b.mockapi.io/api/v1/people/" + id;
     axios
       .put(endpointURL, formData)
-      .then((response) => console.log(response.data))
+      .then((response) => history.push("/read"))
       .catch((err) => console.log(err));
   };
 
@@ -58,12 +60,17 @@ function Update() {
       <Form>
         <Form.Field>
           <label>Prefix</label>
-          <input
-            name="prefix"
+          <select
             placeholder="Prefix"
             onChange={(e) => setPrefix(e.target.value)}
             value={prefix}
-          />
+          >
+            <option value="Mr">Mr</option>
+            <option value="Mrs">Mrs</option>
+            <option value="Miss">Miss</option>
+            <option value="Ms">Ms</option>
+            <option value="Dr">Dr</option>
+          </select>
         </Form.Field>
         <Form.Field>
           <label>First Name</label>
@@ -130,21 +137,32 @@ function Update() {
         </Form.Field>
         <Form.Field>
           <label>Vehicle Type</label>
-          <input
-            name="vehicleType"
+          <select
             placeholder="Vehicle Type"
             onChange={(e) => setVehicleType(e.target.value)}
             value={vehicleType}
-          />
+          >
+            <option value="Cabriolet">Cabriolet</option>
+            <option value="Coupe">Coupe</option>
+            <option value="Estate">Estate</option>
+            <option value="Hatchback">Hatchback</option>
+            <option value="Other">Other</option>
+          </select>
         </Form.Field>
         <Form.Field>
           <label>Engine Size</label>
-          <input
-            name="engineSize"
+          <select
             placeholder="Engine Size"
             onChange={(e) => setEngineSize(e.target.value)}
             value={engineSize}
-          />
+          >
+            <option value="1000cc">1000cc</option>
+            <option value="1600cc">1600cc</option>
+            <option value="2000cc">2000cc</option>
+            <option value="2500cc">2500cc</option>
+            <option value="3000cc">3000cc</option>
+            <option value="Other">Other</option>
+          </select>
         </Form.Field>
 
         <Button type="submit" onClick={callMockAPI}>

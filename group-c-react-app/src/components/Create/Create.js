@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import axios from "axios";
+import { useHistory } from "react-router";
 
 function Create() {
   const [prefix, setPrefix] = useState("");
@@ -13,6 +14,8 @@ function Create() {
   const [postcode, setPostcode] = useState("");
   const [vehicleType, setVehicleType] = useState("");
   const [engineSize, setEngineSize] = useState("");
+
+  let history = useHistory();
 
   const callMockAPI = () => {
     console.log(prefix + " " + firstName + " " + lastName);
@@ -34,7 +37,7 @@ function Create() {
       "https://6151d18b4a5f22001701d46b.mockapi.io/api/v1/people";
     axios
       .post(endpointURL, formData)
-      .then((response) => console.log(response.data))
+      .then((response) => history.push("/read"))
       .catch((err) => console.log(err));
   };
 
@@ -43,10 +46,19 @@ function Create() {
       <Form>
         <Form.Field>
           <label>Prefix</label>
-          <input
+          <select
             placeholder="Prefix"
             onChange={(e) => setPrefix(e.target.value)}
-          />
+          >
+            <option value="" disabled selected hidden>
+              Please Choose...
+            </option>
+            <option value="Mr">Mr</option>
+            <option value="Mrs">Mrs</option>
+            <option value="Miss">Miss</option>
+            <option value="Ms">Ms</option>
+            <option value="Dr">Dr</option>
+          </select>
         </Form.Field>
         <Form.Field>
           <label>First Name</label>
@@ -65,7 +77,8 @@ function Create() {
         <Form.Field>
           <label>Telephone Number</label>
           <input
-            placeholder="Telephone NUmber"
+            required
+            placeholder="Telephone Number"
             onChange={(e) => setTelephoneNumber(e.target.value)}
           />
         </Form.Field>
@@ -96,17 +109,36 @@ function Create() {
         </Form.Field>
         <Form.Field>
           <label>Vehicle Type</label>
-          <input
+          <select
             placeholder="Vehicle Type"
             onChange={(e) => setVehicleType(e.target.value)}
-          />
+          >
+            <option value="" disabled selected hidden>
+              Please Choose...
+            </option>
+            <option value="Cabriolet">Cabriolet</option>
+            <option value="Coupe">Coupe</option>
+            <option value="Estate">Estate</option>
+            <option value="Hatchback">Hatchback</option>
+            <option value="Other">Other</option>
+          </select>
         </Form.Field>
         <Form.Field>
           <label>Engine Size</label>
-          <input
+          <select
             placeholder="Engine Size"
             onChange={(e) => setEngineSize(e.target.value)}
-          />
+          >
+            <option value="" disabled selected hidden>
+              Please Choose...
+            </option>
+            <option value="1000cc">1000cc</option>
+            <option value="1600cc">1600cc</option>
+            <option value="2000cc">2000cc</option>
+            <option value="2500cc">2500cc</option>
+            <option value="3000cc">3000cc</option>
+            <option value="Other">Other</option>
+          </select>
         </Form.Field>
 
         <Button type="submit" onClick={callMockAPI}>
